@@ -4,7 +4,7 @@
 # This is a ocserv installation for CentOS 7 and 6    #
 # Version: 1.1.2 20190521                             #
 # Author: haolong,zcm8483@gmail.com                   #
-# Website: https://github.com/chendong12/ocserv       #
+# Website: https://github.com/wangwanjie/ocserv       #
 #                                                     #
 ####################################################
 #
@@ -50,11 +50,11 @@ function sys_clean(){
 	sed -i '/iptables -A INPUT -p icmp -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -A INPUT -p tcp --dport 22 -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -I INPUT -p tcp --dport 80 -j ACCEPT/d' /etc/rc.d/rc.local
-	sed -i '/iptables -A INPUT -p tcp --dport 4433 -j ACCEPT/d' /etc/rc.d/rc.local
-	sed -i '/iptables -A INPUT -p udp --dport 4433 -j ACCEPT/d' /etc/rc.d/rc.local
+	sed -i '/iptables -A INPUT -p tcp --dport 8888 -j ACCEPT/d' /etc/rc.d/rc.local
+	sed -i '/iptables -A INPUT -p udp --dport 8888 -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -A INPUT -j DROP/d' /etc/rc.d/rc.local
 	sed -i '/iptables -t nat -F/d' /etc/rc.d/rc.local
-	sed -i '/iptables -t nat -A POSTROUTING -s 10.12.0.0\/24 -o eth0 -j MASQUERADE/d' /etc/rc.d/rc.local
+	sed -i '/iptables -t nat -A POSTROUTING -s 192.168.103.0\/24 -o eth0 -j MASQUERADE/d' /etc/rc.d/rc.local
 	sed -i '/#Automatically adjust mtu, ocserv server use/d' /etc/rc.d/rc.local
 	sed -i '/iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu/d' /etc/rc.d/rc.local
 	sed -i '/systemctl start mariadb/d' /etc/rc.d/rc.local
@@ -126,12 +126,12 @@ certtool --generate-crl --load-ca-privkey ca-key.pem \
 #Configuring ocserv
 cd /etc/ocserv/
 rm -rf ocserv.conf
-wget https://raw.githubusercontent.com/chendong12/ocserv/master/ocserv.conf
+wget https://raw.githubusercontent.com/wangwanjie/ocserv/master/ocserv.conf
 #
 cd /root/anyconnect
-wget https://raw.githubusercontent.com/chendong12/ocserv/master/gen-client-cert.sh
-wget https://raw.githubusercontent.com/chendong12/ocserv/master/user_add.sh
-wget https://raw.githubusercontent.com/chendong12/ocserv/master/user_del.sh
+wget https://raw.githubusercontent.com/wangwanjie/ocserv/master/gen-client-cert.sh
+wget https://raw.githubusercontent.com/wangwanjie/ocserv/master/user_add.sh
+wget https://raw.githubusercontent.com/wangwanjie/ocserv/master/user_del.sh
 chmod +x gen-client-cert.sh
 chmod +x user_add.sh
 chmod +x user_del.sh
@@ -153,11 +153,11 @@ iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -p icmp -j ACCEPT
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 4433 -j ACCEPT
-iptables -A INPUT -p udp --dport 4433 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8888 -j ACCEPT
+iptables -A INPUT -p udp --dport 8888 -j ACCEPT
 iptables -A INPUT -j DROP
 iptables -t nat -F
-iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.168.103.0/24 -o eth0 -j MASQUERADE
 #Automatically adjust mtu, ocserv server use
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 EOF

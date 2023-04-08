@@ -3,7 +3,7 @@
         <ServerList>
                 <HostEntry>
                     <HostName>hostname</HostName>
-                    <HostAddress>hostname.com:4433</HostAddress>
+                    <HostAddress>hostname.com:8888</HostAddress>
                 </HostEntry>
         </ServerList>
 </AnyConnectProfile>

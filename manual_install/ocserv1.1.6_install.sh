@@ -17,6 +17,6 @@ sed -i 's@enable-auth = "certificate"@#enable-auth = "certificate"@g' /etc/ocser
 cp "doc/systemd/standalone/ocserv.service" "/usr/lib/systemd/system/ocserv.service"
 sed -i 's@/usr/sbin/ocserv@/usr/local/sbin/ocserv@g' /usr/lib/systemd/system/ocserv.service
 mkdir /var/lib/ocserv/
-wget -P  /var/lib/ocserv/ https://raw.githubusercontent.com/chendong12/ocserv/master/manual_install/profile.xml
+wget -P  /var/lib/ocserv/ https://raw.githubusercontent.com/wangwanjie/ocserv/master/manual_install/profile.xml
 systemctl daemon-reload
 systemctl start ocserv
