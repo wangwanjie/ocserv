@@ -98,6 +98,8 @@ tx-data-per-sec = 262144
 EOF
 
 cd /etc/ocserv
+touch /etc/ocserv/connect-script
+chmod +x /etc/ocserv/connect-script
 cat >connect-script <<EOF
 #!/bin/bash
  
@@ -115,7 +117,6 @@ echo `date` $USERNAME "disconnected" >> $LOGFILE
 esac
 exit 0
 EOF
-chmod +x /etc/ocserv/connect-script
 
 cd /root/anyconnect
 #生成 CA 证书
