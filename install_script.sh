@@ -49,8 +49,8 @@ function sys_clean(){
 	sed -i '/iptables -A INPUT -p icmp -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -A INPUT -p tcp --dport 22 -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -I INPUT -p tcp --dport 80 -j ACCEPT/d' /etc/rc.d/rc.local
-	sed -i '/iptables -A INPUT -p tcp --dport 8888 -j ACCEPT/d' /etc/rc.d/rc.local
-	sed -i '/iptables -A INPUT -p udp --dport 8888 -j ACCEPT/d' /etc/rc.d/rc.local
+	sed -i '/iptables -A INPUT -p tcp --dport 443 -j ACCEPT/d' /etc/rc.d/rc.local
+	sed -i '/iptables -A INPUT -p udp --dport 443 -j ACCEPT/d' /etc/rc.d/rc.local
 	sed -i '/iptables -A INPUT -j DROP/d' /etc/rc.d/rc.local
 	sed -i '/iptables -t nat -F/d' /etc/rc.d/rc.local
 	sed -i '/iptables -t nat -A POSTROUTING -s 192.168.103.0\/24 -o eth0 -j MASQUERADE/d' /etc/rc.d/rc.local
@@ -81,6 +81,22 @@ function centos2_ocserv(){
 yum install epel-release wget -y
 yum install ocserv httpd -y
 mkdir /root/anyconnect
+mkdir /etc/ocserv/defaults
+mkdir /etc/ocserv/config-per-group
+mkdir /etc/ocserv/config-per-user
+
+cd /etc/ocserv/config-per-group
+cat >main <<EOF
+# (x*1024)*1024/8
+rx-data-per-sec = 4194304
+tx-data-per-sec = 4194304
+EOF
+cat >others <<EOF
+# (x*1024)*1024/8
+rx-data-per-sec = 262144
+tx-data-per-sec = 262144
+EOF
+
 cd /root/anyconnect
 #生成 CA 证书
 certtool --generate-privkey --outfile ca-key.pem
@@ -128,6 +144,8 @@ cp crl.pem /etc/ocserv/
 cd /etc/ocserv/
 rm -rf ocserv.conf
 wget --no-check-certificate https://raw.githubusercontent.com/wangwanjie/ocserv/master/ocserv.conf
+rm -rf connect-script
+wget --no-check-certificate https://raw.githubusercontent.com/wangwanjie/ocserv/master/connect-script
 #
 cd /root/anyconnect
 wget --no-check-certificate https://raw.githubusercontent.com/wangwanjie/ocserv/master/gen-client-cert.sh
@@ -152,8 +170,8 @@ iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -p icmp -j ACCEPT
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 8888 -j ACCEPT
-iptables -A INPUT -p udp --dport 8888 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p udp --dport 443 -j ACCEPT
 iptables -A INPUT -j DROP
 iptables -t nat -F
 iptables -t nat -A POSTROUTING -s 192.168.103.0/24 -o eth0 -j MASQUERADE

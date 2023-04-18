@@ -3,8 +3,8 @@
 <ServerList>
      <HostEntry>
           <User>jack</User>
-          <HostName>vpnc.ml:8888</HostName>
-          <HostAddress>vpnc.ml:8888</HostAddress>
+          <HostName>vpnc.ml:443</HostName>
+          <HostAddress>vpnc.ml:443</HostAddress>
      </HostEntry>
 </ServerList>
 </AnyConnectProfile>

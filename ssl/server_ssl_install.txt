@@ -60,5 +60,5 @@ server-key = /etc/letsencrypt/live/example.com/privkey.pem
 #重启服务器
 service ocserv restart
 
-#客户端使用example.com:8888 就可以连接到服务器了
+#客户端使用example.com:443 就可以连接到服务器了
 #记得把example.com 更换成你的域名
